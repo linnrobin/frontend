@@ -38,7 +38,7 @@ export default () => {
             </div>
           </div>
           <div className="col-1">
-            <i class="fa fa-ellipsis-v fa-2x"></i>
+            <i className="fa fa-ellipsis-v fa-2x"></i>
           </div>
         </div>
 
@@ -48,7 +48,7 @@ export default () => {
               <h2>Zzz...</h2>
             </div>
             <div className="row justify-content-center">
-              <i class="fa fa-bed fa-5x"></i>
+              <i className="fa fa-bed fa-5x"></i>
             </div>
             <div className="row justify-content-center m-2">
               <h2>Landlord Offline</h2>

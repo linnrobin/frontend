@@ -102,13 +102,26 @@ export const fetchStatus = (statusId) => {
   };
 };
 
-export const fetchProperties = () => {
-  return (dispatch) => {
-    axios
-      .get(`${baseurl}properties`)
-      .then(({ data }) => dispatch(setProperties(data.result)))
-      .catch((err) => console.log(err));
-  };
+export const fetchProperties = (provinceName, typeName, statusName) => {
+  if (
+    provinceName !== undefined &&
+    typeName !== undefined &&
+    statusName !== undefined
+  ) {
+    return (dispatch) => {
+      axios
+        .get(`${baseurl}properties/${provinceName}/${typeName}/${statusName}`)
+        .then(({ data }) => dispatch(setProperties(data.result)))
+        .catch((err) => console.log(err));
+    };
+  } else {
+    return (dispatch) => {
+      axios
+        .get(`${baseurl}properties`)
+        .then(({ data }) => dispatch(setProperties(data.result)))
+        .catch((err) => console.log(err));
+    };
+  }
 };
 
 export const fetchProperty = (propertyId) => {

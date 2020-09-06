@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -16,6 +16,9 @@ export default () => {
   let provinces = useSelector((state) => state.provinces);
   let statuses = useSelector((state) => state.statuses);
   let properties = useSelector((state) => state.properties);
+  const [valueProvince, setValueProvince] = useState("Jakarta Utara");
+  const [valueType, setValueType] = useState("House");
+  const [valueStatus, setValueStatus] = useState("Rent");
 
   useEffect(() => {
     dispatch(fetchProvinces());
@@ -26,12 +29,39 @@ export default () => {
 
   const handleFind = (event) => {
     event.preventDefault();
-    history.push("/");
+    history.push(`/search/${valueProvince}/${valueType}/${valueStatus}`);
+  };
+
+  const handleChangeProvince = (event) => {
+    setValueProvince(event.target.value);
+  };
+
+  const handleChangeType = (event) => {
+    setValueType(event.target.value);
+  };
+
+  const handleChangeStatus = (event) => {
+    setValueStatus(event.target.value);
   };
 
   const handleSearch = (event) => {
     event.preventDefault();
     history.push("./search");
+  };
+
+  const handleChatLobby = (event) => {
+    event.preventDefault();
+    history.push("./chatLobby");
+  };
+
+  const handleProfile = (event) => {
+    event.preventDefault();
+    history.push("./profile");
+  };
+
+  const handleHistory = (event) => {
+    event.preventDefault();
+    history.push("./history");
   };
 
   const handleDetail = (event, property) => {
@@ -90,7 +120,7 @@ export default () => {
 
         <div className="row">
           <div className="col">
-            <form>
+            <form onSubmit={(e) => handleFind(e)}>
               <div className="row align-items-center">
                 <div
                   className="col-2"
@@ -104,13 +134,17 @@ export default () => {
                   style={{ paddingRight: "30px", paddingLeft: "30px" }}
                 >
                   <div className="form-group">
-                    <label for="exampleFormControlSelect1">Pick Location</label>
+                    <label>Pick Location</label>
                     <select
                       className="form-control"
-                      id="exampleFormControlSelect1"
+                      id="provinceName"
+                      onChange={handleChangeProvince}
+                      value={valueProvince}
                     >
                       {provinces.map((province, i) => (
-                        <option key={i}>{province.name}</option>
+                        <option key={i} value={province.name}>
+                          {province.name}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -129,15 +163,17 @@ export default () => {
                   style={{ paddingRight: "30px", paddingLeft: "30px" }}
                 >
                   <div className="form-group">
-                    <label for="exampleFormControlSelect1">
-                      Type of Property
-                    </label>
+                    <label>Type of Property</label>
                     <select
                       className="form-control"
-                      id="exampleFormControlSelect1"
+                      id="typeName"
+                      onChange={handleChangeType}
+                      value={valueType}
                     >
                       {types.map((type, i) => (
-                        <option key={i}>{type.name}</option>
+                        <option key={i} value={type.name}>
+                          {type.name}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -156,23 +192,26 @@ export default () => {
                   style={{ paddingRight: "30px", paddingLeft: "30px" }}
                 >
                   <div className="form-group">
-                    <label for="exampleFormControlSelect1">Status</label>
+                    <label>Status</label>
                     <select
                       className="form-control"
-                      id="exampleFormControlSelect1"
+                      id="statusName"
+                      onChange={handleChangeStatus}
+                      value={valueStatus}
                     >
                       {statuses.map((status, i) => (
-                        <option key={i}>{status.name}</option>
+                        <option key={i} value={status.name}>
+                          {status.name}
+                        </option>
                       ))}
                     </select>
                   </div>
                 </div>
               </div>
               <button
-                type="button"
+                type="submit"
                 className="btn btn-secondary btn-lg btn-block mt-3 mb-3"
                 style={{ borderRadius: "50px" }}
-                onClick={(e) => handleFind(e)}
               >
                 FIND
               </button>
@@ -204,7 +243,7 @@ export default () => {
                 </label>
               </div>
             </div>
-            <div className="col-2 ">
+            <div className="col-2" onClick={(e) => handleChatLobby(e)}>
               <div className="row justify-content-center">
                 <i
                   className="fa fa-comments-o fa-2x bg-secondary p-3 text-white"
@@ -230,7 +269,7 @@ export default () => {
                 </label>
               </div>
             </div>
-            <div className="col-2 ">
+            <div className="col-2" onClick={(e) => handleHistory(e)}>
               <div className="row justify-content-center">
                 <i
                   className="fa fa-history fa-2x bg-secondary p-3 text-white"
@@ -243,7 +282,7 @@ export default () => {
                 </label>
               </div>
             </div>
-            <div className="col-2 ">
+            <div className="col-2" onClick={(e) => handleProfile(e)}>
               <div className="row justify-content-center">
                 <i
                   className="fa fa-user-o fa-2x bg-secondary p-3 text-white"

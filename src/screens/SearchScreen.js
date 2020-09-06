@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { fetchProperties } from "../store/actions";
 
 export default () => {
   const history = useHistory();
+  const { provinceName, typeName, statusName } = useParams();
   const dispatch = useDispatch();
   let properties = useSelector((state) => state.properties);
 
   useEffect(() => {
-    dispatch(fetchProperties());
-  }, [dispatch]);
+    dispatch(fetchProperties(provinceName, typeName, statusName));
+  }, [dispatch, provinceName, typeName, statusName]);
 
   const handleBack = (event) => {
     event.preventDefault();
